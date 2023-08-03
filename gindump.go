@@ -41,7 +41,7 @@ func DumpWithOptions(showReq bool, showResp bool, showBody bool, showHeaders boo
 
 		if showReq && showBody {
 			//dump req body
-			if ctx.Request.ContentLength > 0 {
+			if true {
 				buf, err := ioutil.ReadAll(ctx.Request.Body)
 				if err != nil {
 					strB.WriteString(fmt.Sprintf("\nread bodyCache err \n %s", err.Error()))
@@ -91,7 +91,6 @@ func DumpWithOptions(showReq bool, showResp bool, showBody bool, showHeaders boo
 				case gin.MIMEMultipartPOSTForm:
 				default:
 					bts, err := ioutil.ReadAll(rdr)
-					fmt.Println(len(bts))
 					if err != nil {
 						strB.WriteString(fmt.Sprintf("\nread rdr err \n %s", err.Error()))
 						goto DumpRes
@@ -145,6 +144,10 @@ func DumpWithOptions(showReq bool, showResp bool, showBody bool, showHeaders boo
 					strB.WriteString(string(s))
 				case gin.MIMEHTML:
 				default:
+					bts := bw.bodyCache.Bytes()
+					strB.WriteString("\nResponse-Body:\n")
+					strB.WriteString(string(bts))
+
 				}
 			}
 		}
