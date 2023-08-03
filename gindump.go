@@ -90,6 +90,14 @@ func DumpWithOptions(showReq bool, showResp bool, showBody bool, showHeaders boo
 
 				case gin.MIMEMultipartPOSTForm:
 				default:
+					bts, err := ioutil.ReadAll(rdr)
+					fmt.Println(len(bts))
+					if err != nil {
+						strB.WriteString(fmt.Sprintf("\nread rdr err \n %s", err.Error()))
+						goto DumpRes
+					}
+					strB.WriteString("\nRequest-Body:\n")
+					strB.WriteString(string(bts))
 				}
 			}
 
@@ -155,7 +163,7 @@ type bodyWriter struct {
 	bodyCache *bytes.Buffer
 }
 
-//rewrite Write()
+// rewrite Write()
 func (w bodyWriter) Write(b []byte) (int, error) {
 	w.bodyCache.Write(b)
 	return w.ResponseWriter.Write(b)
