@@ -1,4 +1,4 @@
-module github.com/tpkeeper/gin-dump
+module github.com/haritzsaiz/gin-dump
 
 go 1.16
 
